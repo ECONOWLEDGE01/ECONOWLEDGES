@@ -1,22 +1,1195 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8">
-  <title>Test EcoNowledge</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <style>
-    body{font-family:Arial,Helvetica,sans-serif;background:#f7f7f7;margin:0;padding:40px}
-    .box{max-width:720px;margin:0 auto;padding:24px;background:#fff;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.08)}
-    h1{color:#2e7d32;margin-bottom:8px}
-    p{color:#333}
-    a{color:#0b6}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoNowledge - Ekonomi Meets Knowledge</title>
+    <style>
+        :root {
+            --primary: #2e7d32;
+            --secondary: #43a047;
+            --accent: #ffb300;
+            --light-accent: #ffca28;
+            --bg: #c8e6c9;
+            --yellow-bg: #d4f53f;
+            --light-green: #e8f5e9;
+            --text: #333;
+            --text-light: #666;
+            --white: #ffffff;
+            --border: #e0e0e0;
+            --success: #43a047;
+            --warning: #ff9800;
+            --danger: #f44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* LOGIN STYLES */
+        .login-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary) 0%, #1b5e20 100%);
+            padding: 20px;
+        }
+
+        .login-card {
+            background: var(--white);
+            width: 100%;
+            max-width: 340px;
+            padding: 40px 25px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border-top: 5px solid var(--accent);
+        }
+
+        .login-logo {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
+            background: var(--yellow-bg);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 32px;
+        }
+
+        .login-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .login-subtitle {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--primary);
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+        }
+
+        .form-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--text-light);
+            margin: 15px 0;
+        }
+
+        .form-checkbox input {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 13px;
+            background: var(--accent);
+            border: none;
+            border-radius: 10px;
+            color: var(--white);
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-login:hover {
+            background: var(--light-accent);
+            transform: translateY(-2px);
+        }
+
+        .login-divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .login-divider::before,
+        .login-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .login-divider span {
+            padding: 0 10px;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .social-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            border: 1.5px solid var(--border);
+            background: var(--white);
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .login-terms {
+            font-size: 11px;
+            color: var(--text-light);
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .login-terms a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--white);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-back {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+            padding: 6px 10px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .btn-back:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .header-title {
+            font-weight: 600;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-small {
+            width: 28px;
+            height: 28px;
+            background: var(--yellow-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 14px;
+        }
+
+        /* DASHBOARD STYLES */
+        .dashboard-content {
+            padding-bottom: 80px;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            color: var(--white);
+            padding: 30px 20px 50px;
+            border-radius: 0 0 30px 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-greeting {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .hero-subtitle {
+            font-size: 12px;
+            opacity: 0.95;
+            line-height: 1.4;
+        }
+
+        .container {
+            padding: 0 16px;
+            margin-top: -25px;
+            position: relative;
+            z-index: 2;
+            padding-bottom: 20px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 13px 18px;
+            border-radius: 50px;
+            border: none;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .search-box:focus {
+            outline: none;
+            box-shadow: 0 8px 25px rgba(46, 125, 50, 0.2);
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 20px 0 15px 0;
+            text-transform: uppercase;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .menu-item {
+            background: var(--white);
+            padding: 18px 10px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-icon {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .menu-text {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* CONTENT CARD */
+        .content-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 12px;
+            display: flex;
+            gap: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+        }
+
+        .content-card:hover {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-thumb {
+            width: 75px;
+            height: 75px;
+            border-radius: 10px;
+            background: var(--bg);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+
+        .content-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .content-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.3;
+            margin-bottom: 4px;
+        }
+
+        .content-meta {
+            font-size: 11px;
+            color: var(--text-light);
+            margin-bottom: 4px;
+        }
+
+        .content-desc {
+            font-size: 11px;
+            color: var(--text-light);
+            line-height: 1.3;
+        }
+
+        /* ALERT ITEM */
+        .alert-item {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 12px;
+            display: flex;
+            gap: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid var(--warning);
+        }
+
+        .alert-icon {
+            font-size: 24px;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .alert-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 3px;
+        }
+
+        .alert-desc {
+            font-size: 11px;
+            color: var(--text-light);
+            line-height: 1.3;
+        }
+
+        .alert-date {
+            font-size: 10px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+
+        /* FORUM ITEM */
+        .forum-item {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid var(--primary);
+        }
+
+        .forum-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .forum-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--yellow-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .forum-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 2px;
+        }
+
+        .forum-topic {
+            font-size: 12px;
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .forum-desc {
+            font-size: 11px;
+            color: var(--text-light);
+            line-height: 1.4;
+            margin: 8px 0;
+        }
+
+        .forum-status {
+            font-size: 10px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* PROFILE */
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px 20px;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            margin-bottom: 15px;
+            border: 3px solid var(--accent);
+        }
+
+        .profile-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .profile-role {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        .stat-item {
+            background: var(--white);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-number {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+
+        /* BOTTOM NAV */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: var(--white);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid var(--border);
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.08);
+            z-index: 90;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 10px;
+            text-align: center;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            flex: 1;
+        }
+
+        .nav-icon {
+            font-size: 22px;
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+            font-weight: 700;
+        }
+    </style>
 </head>
 <body>
-  <div class="box">
-    <h1>EcoNowledge - Test Page</h1>
-    <p>Jika halaman ini muncul, GitHub Pages Anda berfungsi. Selanjutnya ganti dengan file website Anda.</p>
-    <p><strong>Langkah selanjutnya:</strong> upload file index.html dan file lain (dashboard, style.css) ke root repo.</p>
-  </div>
+    <!-- LOGIN PAGE -->
+    <div id="loginPage" class="page active">
+        <div class="login-wrapper">
+            <div class="login-card">
+                <div class="login-logo">🌿</div>
+                <h1 class="login-title">Selamat Datang</h1>
+                <p class="login-subtitle">Platform Edukasi Ekonomi Digital</p>
+
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" id="emailInput" class="form-input" placeholder="masukkan email anda">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="passwordInput" class="form-input" placeholder="masukkan password">
+                </div>
+
+                <div class="form-checkbox">
+                    <input type="checkbox" id="rememberMe">
+                    <label for="rememberMe">Ingat saya</label>
+                </div>
+
+                <button class="btn-login" onclick="handleLogin()">Masuk</button>
+
+                <div class="login-divider"><span>atau masuk dengan</span></div>
+
+                <div class="social-buttons">
+                    <button class="social-btn" style="border: none; background: none; cursor: pointer;">f</button>
+                    <button class="social-btn" style="border: none; background: none; cursor: pointer;">G</button>
+                    <button class="social-btn" style="border: none; background: none; cursor: pointer;">🍎</button>
+                </div>
+
+                <div class="login-terms">
+                    Saya setuju dengan <a href="#">Syarat & Ketentuan</a> dan <a href="#">Kebijakan Privasi</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DASHBOARD PAGE -->
+    <div id="dashboardPage" class="page">
+        <header class="header">
+            <div class="header-left">
+                <button class="btn-back" onclick="goBack()" style="display:none;">←</button>
+                <div class="header-title">
+                    <div class="logo-small">Eco</div>
+                    <span>Jelajahi</span>
+                </div>
+            </div>
+            <button class="btn-back" onclick="handleLogout()" style="background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer; padding: 6px 10px; border-radius: 8px;">✕</button>
+        </header>
+
+        <div class="dashboard-content">
+            <div class="hero-section">
+                <div class="hero-greeting">Explore Fitur Terbaik 🚀</div>
+                <div class="hero-subtitle">Akses semua tools untuk meningkatkan pengetahuan ekonomi dan investasi Anda</div>
+            </div>
+
+            <div class="container">
+                <input type="text" class="search-box" placeholder="🔍 Cari artikel, forum, atau alert...">
+
+                <h3 class="section-title">✨ Fitur Unggulan</h3>
+                <div class="menu-grid">
+                    <div class="menu-item" onclick="navigateTo('read')">
+                        <div class="menu-icon">📖</div>
+                        <div class="menu-text">ECONO READ</div>
+                    </div>
+                    <div class="menu-item" onclick="navigateTo('vision')">
+                        <div class="menu-icon">🎯</div>
+                        <div class="menu-text">ECONO VISION</div>
+                    </div>
+                    <div class="menu-item" onclick="navigateTo('listen')">
+                        <div class="menu-icon">🎧</div>
+                        <div class="menu-text">ECONO LISTEN</div>
+                    </div>
+                    <div class="menu-item" onclick="navigateTo('forum')">
+                        <div class="menu-icon">💬</div>
+                        <div class="menu-text">ECONO FORUM</div>
+                    </div>
+                    <div class="menu-item" onclick="navigateTo('alert')">
+                        <div class="menu-icon">🔔</div>
+                        <div class="menu-text">ECONO ALERT</div>
+                    </div>
+                    <div class="menu-item" onclick="navigateTo('insights')">
+                        <div class="menu-icon">📈</div>
+                        <div class="menu-text">ECONO INSIGHTS</div>
+                    </div>
+                </div>
+
+                <h3 class="section-title">💎 Keunggulan Platform</h3>
+                <div style="display: grid; gap: 12px;">
+                    <div style="background: white; border-radius: 12px; padding: 15px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border-left: 4px solid var(--accent);">
+                        <div style="font-weight: 700; color: var(--primary); margin-bottom: 5px;">📚 8+ Artikel Premium</div>
+                        <div style="font-size: 11px; color: var(--text-light);">Konten berkualitas tinggi dari para ahli ekonomi dan investasi</div>
+                    </div>
+                    <div style="background: white; border-radius: 12px; padding: 15px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border-left: 4px solid var(--accent);">
+                        <div style="font-weight: 700; color: var(--primary); margin-bottom: 5px;">🎙️ 6+ Podcast Edukatif</div>
+                        <div style="font-size: 11px; color: var(--text-light);">Dengarkan tips investasi dan analisis pasar kapan saja</div>
+                    </div>
+                    <div style="background: white; border-radius: 12px; padding: 15px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border-left: 4px solid var(--accent);">
+                        <div style="font-weight: 700; color: var(--primary); margin-bottom: 5px;">💬 Komunitas Aktif</div>
+                        <div style="font-size: 11px; color: var(--text-light);">Bergabung dengan ribuan investor dan ekonom di forum eksklusif</div>
+                    </div>
+                    <div style="background: white; border-radius: 12px; padding: 15px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); border-left: 4px solid var(--accent);">
+                        <div style="font-weight: 700; color: var(--primary); margin-bottom: 5px;">🔔 Alert Real-time</div>
+                        <div style="font-size: 11px; color: var(--text-light);">Dapatkan notifikasi penting tentang pergerakan pasar dan ekonomi</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HOME PAGE (Beranda) -->
+    <div id="homePage" class="page">
+        <header class="header">
+            <div class="header-left">
+                <div class="header-title">
+                    <div class="logo-small">Eco</div>
+                    <span>Beranda</span>
+                </div>
+            </div>
+            <button class="btn-back" onclick="handleLogout()" style="background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer; padding: 6px 10px; border-radius: 8px;">✕</button>
+        </header>
+
+        <div class="dashboard-content">
+            <div class="hero-section">
+                <div class="hero-greeting">Selamat Datang! 👋</div>
+                <div class="hero-subtitle">Jelajahi dunia ekonomi digital dengan ribuan artikel, podcast, dan forum komunitas eksklusif</div>
+            </div>
+
+            <div class="container">
+                <input type="text" class="search-box" placeholder="🔍 Cari artikel, forum, atau alert...">
+
+                <h3 class="section-title">🔥 Trending Hari Ini</h3>
+                <div id="trendingContent"></div>
+
+                <h3 class="section-title">📚 Rekomendasi Untuk Anda</h3>
+                <div id="recommendedContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- READ PAGE -->
+    <div id="readPage" class="page">
+        <header class="header">
+            <div class="header-left">
+                <button class="btn-back" onclick="goBack()">←</button>
+                <div class="header-title">
+                    <div class="logo-small">Eco</div>
+                    <span>Econo Read</span>
+                </div>
+            </div>
+        </header>
+        <div class="container" style="padding-top: 20px;">
+            <input type="text" class="search-box" placeholder="🔍 Cari artikel...">
+            <div id="readContent"></div>
+        </div>
+    </div>
+
+    <!-- ALERT PAGE -->
+    <div id="alertPage" class="page">
+        <header class="header">
+            <div class="header-left">
+                <button class="btn-back" onclick="goBack()">←</button>
+                <div class="header-title">
+                    <div class="logo-small">Eco</div>
+                    <span>Econo Alert</span>
+                </div>
+            </div>
+        </header>
+        <div class="container" style="padding-top: 20px;">
+            <input type="text" class="search-box" placeholder="🔍 Cari alert...">
+            <div id="alertContent"></div>
+        </div>
+    </div>
+
+    <!-- FORUM PAGE -->
+    <div id="forumPage" class="page">
+        <header class="header">
+            <div class="header-left">
+                <button class="btn-back" onclick="goBack()">←</button>
+                <div class="header-title">
+                    <div class="logo-small">Eco</div>
+                    <span>Econo Forum</span>
+                </div>
+            </div>
+        </header>
+        <div class="container" style="padding-top: 20px;">
+            <input type="text" class="search-box" placeholder="🔍 Cari forum...">
+            <div id="forumContent"></div>
+        </div>
+    </div>
+
+    <!-- INSIGHTS PAGE -->
+    <div id="insightsPage" class="page">
+        <header class="header">
+            <div class="header-left">
+                <button class="btn-back" onclick="goBack()">←</button>
+                <div class="header-title">
+                    <div class="logo-small">Eco</div>
+                    <span>Econo Insights</span>
+                </div>
+            </div>
+        </header>
+        <div class="container" style="padding-top: 20px;">
+            <input type="text" class="search-box" placeholder="🔍 Cari insights...">
+            <div id="insightsContent"></div>
+        </div>
+    </div>
+
+    <!-- LISTEN PAGE -->
+    <div id="listenPage" class="page">
+        <header class="header">
+            <div class="header-left">
+                <button class="btn-back" onclick="goBack()">←</button>
+                <div class="header-title">
+                    <div class="logo-small">Eco</div>
+                    <span>Econo Listen</span>
+                </div>
+            </div>
+        </header>
+        <div class="container" style="padding-top: 20px;">
+            <input type="text" class="search-box" placeholder="🔍 Cari podcast...">
+            <div id="listenContent"></div>
+        </div>
+    </div>
+
+    <!-- VISION PAGE -->
+    <div id="visionPage" class="page">
+        <header class="header">
+            <div class="header-left">
+                <button class="btn-back" onclick="goBack()">←</button>
+                <div class="header-title">
+                    <div class="logo-small">Eco</div>
+                    <span>Econo Vision</span>
+                </div>
+            </div>
+        </header>
+        <div class="container" style="padding-top: 20px;">
+            <div id="visionContent"></div>
+        </div>
+    </div>
+
+    <!-- PROFILE PAGE -->
+    <div id="profilePage" class="page">
+        <header class="header">
+            <div class="header-left">
+                <button class="btn-back" onclick="goBack()">←</button>
+                <div class="header-title">
+                    <div class="logo-small">Eco</div>
+                    <span>Profil Saya</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="profile-container">
+            <div class="profile-avatar">👩‍💼</div>
+            <div class="profile-name">Nama Anda</div>
+            <div class="profile-role">Member Premium EcoNowledge</div>
+
+            <div class="profile-stats">
+                <div class="stat-item">
+                    <div class="stat-number">48</div>
+                    <div class="stat-label">Artikel</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Forum</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">156</div>
+                    <div class="stat-label">Poin</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTTOM NAV - Hanya muncul setelah login -->
+    <nav class="bottom-nav" id="bottomNav" style="display: none;">
+        <div class="nav-link active" onclick="navigateTo('home')">
+            <div class="nav-icon">🏠</div>
+            <span>Beranda</span>
+        </div>
+        <div class="nav-link" onclick="navigateTo('dashboard')">
+            <div class="nav-icon">⭐</div>
+            <span>Explore</span>
+        </div>
+        <div class="nav-link" onclick="alert('Fitur buat konten akan segera hadir')">
+            <div class="nav-icon">➕</div>
+            <span>Buat</span>
+        </div>
+        <div class="nav-link" onclick="navigateTo('forum')">
+            <div class="nav-icon">💬</div>
+            <span>Forum</span>
+        </div>
+        <div class="nav-link" onclick="navigateTo('profile')">
+            <div class="nav-icon">👤</div>
+            <span>Profil</span>
+        </div>
+    </nav>
+
+    <script>
+        // DATA
+        const readData = [
+            { title: "PEMAKANAN GLOBAL: WAWASAN PRAKTIS DAN ANALISIS INTERNASIONAL", author: "Garsika Prangi", desc: "Menganalisis tren konsumsi global dan dampaknya terhadap ekonomi internasional...", thumb: "🌍", category: "Internasional", views: "2.5K" },
+            { title: "MENGINTIP EKONOMI DIGITAL: TRANSFORMASI BISNIS DI ERA MODERN", author: "Dr. Budi Hartono", desc: "Mempelajari perubahan ekonomi digital dan adaptasi bisnis di era transformasi teknologi...", thumb: "💻", category: "Digital", views: "3.2K" },
+            { title: "SEBUAH PENDIDIKAN EKONOMI: MEMBANGUN LITERASI FINANSIAL", author: "Prof. Siti Nurhayati", desc: "Strategi pendidikan ekonomi untuk meningkatkan literasi finansial generasi muda...", thumb: "📚", category: "Edukasi", views: "4.1K" },
+            { title: "INVESTASI SAHAM UNTUK PEMULA: STRATEGI JANGKA PANJANG", author: "Andi Wijaya", desc: "Panduan lengkap untuk memulai investasi saham dengan strategi yang aman...", thumb: "📈", category: "Investasi", views: "5.8K" },
+            { title: "CRYPTOCURRENCY DAN BLOCKCHAIN: MASA DEPAN KEUANGAN", author: "Riana Kusuma", desc: "Eksplorasi mendalam tentang cryptocurrency dan aplikasinya dalam sistem finansial...", thumb: "🪙", category: "Crypto", views: "3.9K" },
+            { title: "MANAJEMEN UTANG PRIBADI: CARA CERDAS MENGATUR KEUANGAN", author: "Doni Pratama", desc: "Teknik mengelola utang pribadi agar tidak membebani keuangan jangka panjang...", thumb: "💳", category: "Keuangan", views: "2.3K" },
+            { title: "PASSIVE INCOME: STRATEGI MENGHASILKAN UANG TANPA BEKERJA KERAS", author: "Maya Santoso", desc: "Berbagai cara menciptakan passive income melalui investasi dan aset digital...", thumb: "💰", category: "Bisnis", views: "6.2K" },
+            { title: "ANALISIS FUNDAMENTAL SAHAM: CARA MEMILIH SAHAM BERKUALITAS", author: "Prof. Sutrisno", desc: "Metode analisis fundamental untuk memilih saham dengan potensi pertumbuhan...", thumb: "🔍", category: "Trading", views: "4.5K" }
+        ];
+
+        const alertData = [
+            { title: "BREAKING: Bank Indonesia Naikkan Suku Bunga", desc: "Kebijakan moneter terbaru BI mengangkat suku bunga acuan untuk mengendalikan inflasi...", date: "02 Feb", icon: "📢" },
+            { title: "UPDATE: Rupiah Menguat 1.2% Terhadap Dollar AS", desc: "Penguatan rupiah mencerminkan stabilitas ekonomi Indonesia di pasar global...", date: "01 Feb", icon: "📈" },
+            { title: "ALERT: Inflasi Februari Mencapai 3.1%", desc: "Laju inflasi meningkat signifikan didorong oleh kenaikan harga pangan...", date: "31 Jan", icon: "⚠️" },
+            { title: "IHSG TEMBUS LEVEL 7.500", desc: "Indeks Harga Saham Gabungan mencapai rekor tertinggi dengan saham bank memimpin...", date: "30 Jan", icon: "🚀" },
+            { title: "PDB INDONESIA TUMBUH 5.1%", desc: "Pertumbuhan ekonomi Indonesia mencapai 5.1% didorong konsumsi domestik...", date: "28 Jan", icon: "📊" },
+            { title: "PERINGATAN: RISIKO RESESI GLOBAL MENINGKAT", desc: "Lembaga internasional memperingatkan potensi resesi ekonomi global...", date: "25 Jan", icon: "⚡" },
+            { title: "DANA ASING KEMBALI MASUK KE BURSA SAHAM", desc: "Foreign institutional investors mulai meningkatkan portofolio saham Indonesia...", date: "22 Jan", icon: "💹" },
+            { title: "OJK PERKUAT PERLINDUNGAN INVESTOR RITEL", desc: "Otoritas Jasa Keuangan mengeluarkan regulasi baru untuk perlindungan investor...", date: "20 Jan", icon: "📋" }
+        ];
+
+        const forumData = [
+            { name: "EKOFORUM INDONESIA", topic: "@EkonomiIndonesia", desc: "Diskusi tentang perkembangan ekonomi Indonesia terkini dan peluang investasi...", avatar: "🏛️" },
+            { name: "DIANDRA EKONOMI", topic: "@InvestorMuda", desc: "Komunitas investor muda berbagi tips investasi dan strategi portfolio...", avatar: "💰" },
+            { name: "DISKURSUS EKONOMI NASIONAL", topic: "Diskusi Populer", desc: "Platform diskusi mendalam mengenai kebijakan moneter Bank Indonesia...", avatar: "🎤" },
+            { name: "SINERGI EKONOMI FORUM", topic: "Webinar & Training", desc: "Forum penuh dengan webinar gratis tentang investasi dan literasi finansial...", avatar: "🎓" },
+            { name: "MIMBAR EKONOMI KITA", topic: "@FinancialFreedom", desc: "Berbagi pengalaman mencapai financial freedom melalui berbagai strategi...", avatar: "🌟" },
+            { name: "WACANA EKONOMI PROGRESIF", topic: "Line Discussion", desc: "Diskusi santai seputtar economic trends dan peluang bisnis di era digital...", avatar: "💡" }
+        ];
+
+        const insightsData = [
+            { title: "IHSG AWALI MARET MENGUAT, SAHAM BBRI, BBCA, BMRI DIBORONG", thumb: "📊", chart: "📈", stat: "+3.45%" },
+            { title: "DOLAR AS MELEMAH, RUPIAH MENGUAT KE LEVEL 15.200", thumb: "💹", chart: "📉", stat: "-2.15%" },
+            { title: "SAHAM TEKNOLOGI REBOUND, NASDAQ-100 NAIK 2.5%", thumb: "🎯", chart: "📈", stat: "+2.50%" },
+            { title: "GOLD PRICE NAIK SIGNIFIKAN MENJADI 2.050 PER OUNCE", thumb: "🥇", chart: "📈", stat: "+1.85%" },
+            { title: "CRYPTO MARKET RALLY, BITCOIN TEMBUS 43.000 DOLAR", thumb: "🪙", chart: "📈", stat: "+8.32%" },
+            { title: "PROPERTI COMMERCIAL TURUN, MALL RENTAL MELEMAH 5%", thumb: "🏢", chart: "📉", stat: "-5.00%" }
+        ];
+
+        const listenData = [
+            { title: "INVESTASI SAHAM UNTUK PEMULA", desc: "Mengenal cara kerja investasi saham, strategi diversifikasi portfolio...", duration: "45:32", thumb: "🎙️" },
+            { title: "STRATEGI INVESTASI YANG MENGUNTUNGKAN", desc: "Tips membangun strategi investasi yang sesuai dengan profil risiko Anda...", duration: "52:18", thumb: "🎧" },
+            { title: "TRANSFORMASI DIGITAL DALAM BISNIS MODERN", desc: "Memahami transformasi digital dalam berbagai sektor bisnis...", duration: "38:45", thumb: "🔊" },
+            { title: "PANDUAN LENGKAP CRYPTOCURRENCY", desc: "Diskusi mendalam tentang cryptocurrency, blockchain, dan cara investasi crypto...", duration: "61:20", thumb: "📻" },
+            { title: "MENGATUR KEUANGAN PRIBADI & KELUARGA", desc: "Strategi mengelola keuangan keluarga, budgeting, asuransi, dan pensiun...", duration: "43:15", thumb: "🎬" },
+            { title: "ANALISIS PASAR & PREDIKSI TREN EKONOMI", desc: "Expert berbagi analisis pasar terkini dan strategi trading di pasar volatil...", duration: "55:40", thumb: "📡" }
+        ];
+
+        let currentPage = 'login';
+        const pageHistory = [];
+
+        function handleLogin() {
+            const email = document.getElementById('emailInput').value;
+            const password = document.getElementById('passwordInput').value;
+            if (email && password) {
+                showPage('home');
+            } else {
+                alert('Silakan isi email dan password!');
+            }
+        }
+
+        function handleLogout() {
+            if (confirm('Yakin ingin logout?')) {
+                showPage('login');
+                document.getElementById('emailInput').value = '';
+                document.getElementById('passwordInput').value = '';
+                pageHistory.length = 0;
+            }
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            const page = document.getElementById(pageId + 'Page');
+            if (page) {
+                page.classList.add('active');
+                currentPage = pageId;
+                updateNav();
+                if (pageId === 'home') {
+                    renderHomePage();
+                }
+                // Tampilkan/sembunyikan bottom nav berdasarkan halaman
+                const bottomNav = document.getElementById('bottomNav');
+                if (pageId === 'login') {
+                    bottomNav.style.display = 'none';
+                } else {
+                    bottomNav.style.display = 'flex';
+                }
+            }
+        }
+
+        function navigateTo(page) {
+            pageHistory.push(currentPage);
+            showPage(page);
+            renderContent(page);
+        }
+
+        function goBack() {
+            if (pageHistory.length > 0) {
+                const prevPage = pageHistory.pop();
+                showPage(prevPage);
+            }
+        }
+
+        function updateNav() {
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            const navItems = document.querySelectorAll('.nav-link');
+            if (currentPage === 'home') navItems[0].classList.add('active');
+            else if (currentPage === 'dashboard') navItems[1].classList.add('active');
+            else if (currentPage === 'forum') navItems[3].classList.add('active');
+            else if (currentPage === 'profile') navItems[4].classList.add('active');
+        }
+
+        function renderHomePage() {
+            // Tampilkan 3 trending articles dengan badge
+            const trending = readData.slice(0, 3).map(item => `
+                <div class="content-card">
+                    <div class="content-thumb">${item.thumb}</div>
+                    <div class="content-body">
+                        <div style="display: flex; justify-content: space-between; align-items: start; gap: 8px;">
+                            <div class="content-title">${item.title}</div>
+                            <span style="background: var(--accent); color: white; padding: 2px 8px; border-radius: 12px; font-size: 9px; font-weight: 700;">🔥 Trending</span>
+                        </div>
+                        <div class="content-meta">📝 ${item.author} • 👁️ ${item.views}</div>
+                        <div class="content-desc">${item.desc}</div>
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('trendingContent').innerHTML = trending;
+
+            // Tampilkan 3 rekomendasi podcast dengan rating
+            const recommended = listenData.slice(0, 3).map((item, idx) => `
+                <div class="content-card">
+                    <div class="content-thumb">${item.thumb}</div>
+                    <div class="content-body">
+                        <div style="display: flex; justify-content: space-between; align-items: start;">
+                            <div style="flex: 1;">
+                                <div class="content-title">${item.title}</div>
+                                <div class="content-meta">⏱️ ${item.duration}</div>
+                            </div>
+                            <span style="background: var(--success); color: white; padding: 2px 8px; border-radius: 12px; font-size: 9px; font-weight: 700;">⭐ ${(4.5 + idx * 0.1).toFixed(1)}</span>
+                        </div>
+                        <div class="content-desc">${item.desc}</div>
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('recommendedContent').innerHTML = recommended;
+        }
+
+        function renderContent(page) {
+            switch(page) {
+                case 'read':
+                    document.getElementById('readContent').innerHTML = readData.map(item => `
+                        <div class="content-card">
+                            <div class="content-thumb">${item.thumb}</div>
+                            <div class="content-body">
+                                <div style="display: flex; justify-content: space-between; align-items: start; gap: 8px;">
+                                    <div class="content-title">${item.title}</div>
+                                    <span style="background: var(--yellow-bg); color: var(--primary); padding: 2px 8px; border-radius: 12px; font-size: 9px; font-weight: 700; white-space: nowrap;">📌 ${item.category}</span>
+                                </div>
+                                <div class="content-meta">📝 ${item.author} • 👁️ ${item.views}</div>
+                                <div class="content-desc">${item.desc}</div>
+                            </div>
+                        </div>
+                    `).join('');
+                    break;
+
+                case 'alert':
+                    document.getElementById('alertContent').innerHTML = alertData.map((item, idx) => {
+                        const colors = ['warning', 'success', 'danger', 'success', 'success', 'danger', 'success', 'warning'];
+                        const bgColor = colors[idx % colors.length];
+                        const bgMap = {
+                            'warning': 'rgba(255, 152, 0, 0.1)',
+                            'success': 'rgba(67, 160, 71, 0.1)',
+                            'danger': 'rgba(244, 67, 54, 0.1)'
+                        };
+                        return `
+                            <div class="alert-item" style="border-left-color: ${bgColor === 'warning' ? 'var(--warning)' : bgColor === 'success' ? 'var(--success)' : 'var(--danger)'}; cursor: pointer;">
+                                <div class="alert-icon" style="background: ${bgMap[bgColor]};">${item.icon}</div>
+                                <div style="flex: 1;">
+                                    <div class="alert-title">${item.title}</div>
+                                    <div class="alert-desc">${item.desc}</div>
+                                    <div style="display: flex; justify-content: space-between; margin-top: 6px;">
+                                        <div class="alert-date">${item.date}</div>
+                                        <span style="font-size: 10px; font-weight: 600; color: var(--primary); cursor: pointer;">Baca selengkapnya →</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                    break;
+
+                case 'forum':
+                    document.getElementById('forumContent').innerHTML = forumData.map((item, idx) => `
+                        <div class="forum-item">
+                            <div class="forum-header">
+                                <div class="forum-avatar">${item.avatar}</div>
+                                <div style="flex: 1;">
+                                    <div class="forum-name">${item.name}</div>
+                                    <div class="forum-topic">${item.topic}</div>
+                                </div>
+                                <span style="background: var(--yellow-bg); color: var(--primary); padding: 2px 8px; border-radius: 12px; font-size: 9px; font-weight: 700;">${500 + idx * 150} Members</span>
+                            </div>
+                            <div class="forum-desc">${item.desc}</div>
+                            <div style="display: flex; gap: 10px; margin-top: 10px; font-size: 10px; color: var(--text-light);">
+                                <span>💬 ${120 + idx * 45} Diskusi</span>
+                                <span>👥 ${890 + idx * 200} Anggota</span>
+                                <span style="margin-left: auto; color: var(--primary); font-weight: 600; cursor: pointer;">Buka →</span>
+                            </div>
+                        </div>
+                    `).join('');
+                    break;
+
+                case 'insights':
+                    document.getElementById('insightsContent').innerHTML = insightsData.map(item => `
+                        <div class="content-card" style="cursor: pointer;">
+                            <div class="content-thumb">${item.thumb}</div>
+                            <div class="content-body">
+                                <div class="content-title">${item.title}</div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
+                                    <div style="display: flex; gap: 8px; font-size: 20px;">
+                                        ${item.chart}
+                                    </div>
+                                    <div style="font-size: 13px; font-weight: 700; ${item.stat.includes('-') ? 'color: var(--danger)' : 'color: var(--success)'};">${item.stat}</div>
+                                </div>
+                                <div style="font-size: 10px; color: var(--text-light); margin-top: 6px;">📊 Perbarui 5 menit yang lalu</div>
+                            </div>
+                        </div>
+                    `).join('');
+                    break;
+
+                case 'listen':
+                    document.getElementById('listenContent').innerHTML = listenData.map((item, idx) => {
+                        const instructors = ['Budi Hartono', 'Maya Santoso', 'Riana Kusuma', 'Andi Wijaya', 'Doni Pratama', 'Prof. Sutrisno'];
+                        return `
+                            <div class="content-card" style="cursor: pointer; border: 1px solid var(--border);">
+                                <div class="content-thumb">${item.thumb}</div>
+                                <div class="content-body">
+                                    <div class="content-title">${item.title}</div>
+                                    <div class="content-meta">👨‍🏫 ${instructors[idx % instructors.length]} • ⏱️ ${item.duration}</div>
+                                    <div class="content-desc">${item.desc}</div>
+                                    <div style="display: flex; gap: 10px; margin-top: 8px; font-size: 10px; color: var(--text-light);">
+                                        <span>⭐ ${(4.2 + Math.random() * 0.8).toFixed(1)}</span>
+                                        <span>${Math.floor(Math.random() * 3000) + 1000} Pendengar</span>
+                                        <span style="margin-left: auto; color: var(--primary); font-weight: 600;">Dengarkan →</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                    break;
+
+                case 'vision':
+                    document.getElementById('visionContent').innerHTML = `
+                        <div style="background: linear-gradient(135deg, var(--secondary), var(--primary)); border-radius: 15px; padding: 40px 20px; text-align: center; margin-top: 20px; color: white;">
+                            <div style="font-size: 80px; margin-bottom: 20px;">🎬</div>
+                            <h3 style="margin-bottom: 15px; font-size: 22px; font-weight: 700;">Video Learning Center</h3>
+                            <p style="font-size: 13px; line-height: 1.6; margin-bottom: 20px;">Konten video edukasi ekonomi interaktif dengan instruktur berpengalaman.</p>
+                            <button style="padding: 12px 25px; background: var(--accent); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">🎯 Subscribe Sekarang</button>
+                        </div>
+                        <div style="margin-top: 25px;">
+                            <h4 style="color: var(--primary); font-weight: 700; margin-bottom: 15px;">📺 Video Populer</h4>
+                            <div style="background: white; border-radius: 12px; padding: 15px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);">
+                                <div style="font-weight: 700;">Investasi Saham untuk Pemula</div>
+                                <div style="font-size: 12px; color: var(--text-light);">⏱️ 28:45 | 👤 Budi Hartono</div>
+                            </div>
+                            <div style="background: white; border-radius: 12px; padding: 15px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);">
+                                <div style="font-weight: 700;">Strategi Trading yang Menguntungkan</div>
+                                <div style="font-size: 12px; color: var(--text-light);">⏱️ 35:20 | 👤 Maya Santoso</div>
+                            </div>
+                            <div style="background: white; border-radius: 12px; padding: 15px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);">
+                                <div style="font-weight: 700;">Cryptocurrency 101</div>
+                                <div style="font-size: 12px; color: var(--text-light);">⏱️ 42:15 | 👤 Riana Kusuma</div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+            }
+        }
+    </script>
 </body>
 </html>
